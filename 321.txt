@@ -12,8 +12,22 @@ ProcessStartInfo info
 Using non full filepath on Process.Start only works if the file is found in System32 folder.
 
 When UseShellExecute is false, the FileName property can be either a fully qualified path to the executable, or a simple executable name that the system will attempt to find within folders specified by the PATH environment variable.
-compiler.StartInfo.FileName = "csc.exe";
+// Run "csc.exe /r:System.dll /out:sample.exe stdstr.cs". UseShellExecute is false because we're specifying
+// an executable directly and in this case depending on it being in a PATH folder. By setting
+// RedirectStandardOutput to true, the output of csc.exe is directed to the Process.StandardOutput stream
+// which is then displayed in this console window directly.
+using (Process compiler = new Process())
+{
+    compiler.StartInfo.FileName = "csc.exe";
     compiler.StartInfo.Arguments = "/r:System.dll /out:sample.exe stdstr.cs";
     compiler.StartInfo.UseShellExecute = false;
     compiler.StartInfo.RedirectStandardOutput = true;
     compiler.Start();
+
+    Console.WriteLine(compiler.StandardOutput.ReadToEnd());
+
+    compiler.WaitForExit();
+}
+    
+    【PyAutoGUI】Pythonでマウスとキーボードを操作する
+    https://tech-blog.rakus.co.jp/entry/20220613/python
