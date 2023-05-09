@@ -31,3 +31,4 @@ using (Process compiler = new Process())
     
     【PyAutoGUI】Pythonでマウスとキーボードを操作する
     https://tech-blog.rakus.co.jp/entry/20220613/python
+    https://gakushikiweblog.com/python_pyautogui
