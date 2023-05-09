@@ -1,0 +1,19 @@
+crollToCurrentProgress
+CurrentFolder_GV.CurrentCell = CurrentFolder_GV.Rows(rowNo).Cells(1)
+
+disable a radio btn
+rdoCustomer.Enabled = False
+rdoCustomer.Checked = False
+
+process not found
+Try to replace your initialization code with:
+ProcessStartInfo info 
+    = new ProcessStartInfo(@"C:\Program Files\Internet Explorer\iexplore.exe");
+Using non full filepath on Process.Start only works if the file is found in System32 folder.
+
+When UseShellExecute is false, the FileName property can be either a fully qualified path to the executable, or a simple executable name that the system will attempt to find within folders specified by the PATH environment variable.
+compiler.StartInfo.FileName = "csc.exe";
+    compiler.StartInfo.Arguments = "/r:System.dll /out:sample.exe stdstr.cs";
+    compiler.StartInfo.UseShellExecute = false;
+    compiler.StartInfo.RedirectStandardOutput = true;
+    compiler.Start();
