@@ -32,3 +32,33 @@ using (Process compiler = new Process())
     【PyAutoGUI】Pythonでマウスとキーボードを操作する
     https://tech-blog.rakus.co.jp/entry/20220613/python
     https://gakushikiweblog.com/python_pyautogui
+
+
+
+C# Dictionary to Json file
+
+using Newtonsoft.Json;
+Dictionary<string, string> dict = new Dictionary<string, string>()
+{
+    {"key1", "value1"},
+    {"key2", "value2"}
+};
+string json = JsonConvert.SerializeObject(dict);
+Console.WriteLine(json);
+---------------------------------------------------
+//Reference:  https://jd-bots.com/2023/02/17/convert-dictionary-to-json-object-in-c-example-code/
+
+
+
+////////////////////////////////
+Json file to C# Dictionary
+var json = File.ReadAllText(@"c:\temp\job3.json");
+or
+string json = @"{""key1"":""value1"",""key2"":""value2""}";
+
+var values = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+-------------------------------------
+
+//Reference:  
+https://stackoverflow.com/questions/47045964/c-sharp-json-to-dictionary-of-objects
+https://stackoverflow.com/questions/1207731/how-can-i-deserialize-json-to-a-simple-dictionarystring-string-in-asp-net
