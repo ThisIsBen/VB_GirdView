@@ -62,3 +62,35 @@ var values = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
 //Reference:  
 https://stackoverflow.com/questions/47045964/c-sharp-json-to-dictionary-of-objects
 https://stackoverflow.com/questions/1207731/how-can-i-deserialize-json-to-a-simple-dictionarystring-string-in-asp-net
+
+
+
+
+Good Udemy courses
+Web design
+https://www.udemy.com/course/complete-vuejs-3-crash-course-composition-api-vue-router-vuex/
+
+https://www.udemy.com/course/web-application-with-nodejs-mysql/
+
+https://www.udemy.com/course/learn-web-development-by-building-a-blog/
+
+
+AI　画像処理
+CNN、RNN、人工知能Webアプリの構築-
+https://www.udemy.com/course/ai-pytorch/
+
+
+
+ルールベース
+https://www.udemy.com/course/image_processing_python/
+
+
+////////////////
+AI画像生成の知識を身につけることで、市販の画像生成ツールがうまく生成できないNG画像を自力で作成する可能性を高める。
+
+AIによる画像生成
+https://www.udemy.com/course/image_generation/
++
+ 人工知能Webアプリ開発入門
+https://www.udemy.com/course/7step_python_vit/
+
