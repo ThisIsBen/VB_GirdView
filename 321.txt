@@ -94,3 +94,221 @@ https://www.udemy.com/course/image_generation/
  人工知能Webアプリ開発入門
 https://www.udemy.com/course/7step_python_vit/
 
+
+
+///////////////////////////////////////////
+Smooth Grad-CAM++
+class SmoothGradCAMpp(_GradCAM):
+    """Implements a class activation map extractor as described in `"Smooth Grad-CAM++: An Enhanced Inference Level
+    Visualization Technique for Deep Convolutional Neural Network Models" <https://arxiv.org/pdf/1908.01224.pdf>`_
+    with a personal correction to the paper (alpha coefficient numerator).
+
+    The localization map is computed as follows:
+
+    .. math::
+        L^{(c)}_{Smooth Grad-CAM++}(x, y) = \\sum\\limits_k w_k^{(c)} A_k(x, y)
+
+    with the coefficient :math:`w_k^{(c)}` being defined as:
+
+    .. math::
+        w_k^{(c)} = \\sum\\limits_{i=1}^H \\sum\\limits_{j=1}^W \\alpha_k^{(c)}(i, j) \\cdot
+        ReLU\\Big(\\frac{\\partial Y^{(c)}}{\\partial A_k(i, j)}\\Big)
+
+    where :math:`A_k(x, y)` is the activation of node :math:`k` in the target layer of the model at
+    position :math:`(x, y)`,
+    :math:`Y^{(c)}` is the model output score for class :math:`c` before softmax,
+    and :math:`\\alpha_k^{(c)}(i, j)` being defined as:
+
+    .. math::
+        \\alpha_k^{(c)}(i, j)
+        = \\frac{\\frac{\\partial^2 Y^{(c)}}{(\\partial A_k(i,j))^2}}{2 \\cdot
+        \\frac{\\partial^2 Y^{(c)}}{(\\partial A_k(i,j))^2} + \\sum\\limits_{a,b} A_k (a,b) \\cdot
+        \\frac{\\partial^3 Y^{(c)}}{(\\partial A_k(i,j))^3}}
+        = \\frac{\\frac{1}{n} \\sum\\limits_{m=1}^n D^{(c, 2)}_k(i, j)}{
+        \\frac{2}{n} \\sum\\limits_{m=1}^n D^{(c, 2)}_k(i, j) + \\sum\\limits_{a,b} A_k (a,b) \\cdot
+        \\frac{1}{n} \\sum\\limits_{m=1}^n D^{(c, 3)}_k(i, j)}
+
+    if :math:`\\frac{\\partial Y^{(c)}}{\\partial A_k(i, j)} = 1` else :math:`0`. Here :math:`D^{(c, p)}_k(i, j)`
+    refers to the p-th partial derivative of the class score of class :math:`c` relatively to the activation in layer
+    :math:`k` at position :math:`(i, j)`, and :math:`n` is the number of samples used to get the gradient estimate.
+
+    Please note the difference in the numerator of :math:`\\alpha_k^{(c)}(i, j)`,
+    which is actually :math:`\\frac{1}{n} \\sum\\limits_{k=1}^n D^{(c, 1)}_k(i,j)` in the paper.
+
+    Example::
+        >>> from torchvision.models import resnet18
+        >>> from torchcam.cams import SmoothGradCAMpp
+        >>> model = resnet18(pretrained=True).eval()
+        >>> cam = SmoothGradCAMpp(model, 'layer4')
+        >>> scores = model(input_tensor)
+        >>> cam(class_idx=100)
+
+    Args:
+        model: input model
+        target_layer: name of the target layer
+        num_samples: number of samples to use for smoothing
+        std: standard deviation of the noise
+        input_shape: shape of the expected input tensor excluding the batch dimension
+    """
+
+    def __init__(
+        self,
+        model: torch.nn.Module,
+        target_layer: Optional[str] = None,
+        num_samples: int = 4,
+        std: float = 0.3,
+        input_shape: Tuple[int, ...] = (3, 224, 224),
+    ) -> None:
+
+        super().__init__(model, target_layer, input_shape)
+        # Model scores is not used by the extractor
+        self._score_used = False
+
+        # Input hook
+        self.hook_handles.append(model.register_forward_pre_hook(self._store_input))
+        # Noise distribution
+        self.num_samples = num_samples
+        self.std = std
+        self._distrib = torch.distributions.normal.Normal(0, self.std)
+        # Specific input hook updater
+        self._ihook_enabled = True
+
+    def _store_input(self, module: torch.nn.Module, input: Tensor) -> None:
+        """Store model input tensor"""
+
+        if self._ihook_enabled:
+            self._input = input[0].data.clone()
+
+    def _get_weights(self, class_idx: int, scores: Optional[Tensor] = None) -> Tensor:
+        """Computes the weight coefficients of the hooked activation maps"""
+
+        self.hook_a: Tensor
+        self.hook_g: Tensor
+        # Disable input update
+        self._ihook_enabled = False
+        # Keep initial activation
+        init_fmap = self.hook_a.clone()
+        # Initialize our gradient estimates
+        grad_2, grad_3 = torch.zeros_like(self.hook_a), torch.zeros_like(self.hook_a)
+        # Perform the operations N times
+        for _idx in range(self.num_samples):
+            # Add noise
+            noisy_input = self._input + self._distrib.sample(self._input.size()).to(device=self._input.device)
+            # Forward & Backward
+            out = self.model(noisy_input)
+            self.model.zero_grad()
+            self._backprop(out, class_idx)
+
+            # Sum partial derivatives
+            grad_2.add_(self.hook_g.pow(2))
+            grad_3.add_(self.hook_g.pow(3))
+
+        # Reenable input update
+        self._ihook_enabled = True
+
+        # Average the gradient estimates
+        grad_2.div_(self.num_samples)
+        grad_3.div_(self.num_samples)
+
+        # Alpha coefficient for each pixel
+        spatial_dims = self.hook_a.ndim - 2
+        alpha = grad_2 / (2 * grad_2 + (grad_3 * init_fmap).flatten(2).sum(-1)[(...,) + (None,) * spatial_dims])
+
+        # Apply pixel coefficient in each weight
+        return alpha.squeeze_(0).mul_(torch.relu(self.hook_g.squeeze(0))).flatten(1).sum(-1)
+
+    def extra_repr(self) -> str:
+        return f"target_layer='{self.target_layer}', num_samples={self.num_samples}, std={self.std}"
+
+
+
+///////////////////////////////////////////////////
+utils.py
+
+def overlay_mask(img: Image.Image, mask: Image.Image, colormap: str = 'jet', alpha: float = 0.7) -> Image.Image:
+    """Overlay a colormapped mask on a background image
+
+    Args:
+        img: background image
+        mask: mask to be overlayed in grayscale
+        colormap: colormap to be applied on the mask
+        alpha: transparency of the background image
+
+    Returns:
+        overlayed image
+    """
+
+    if not isinstance(img, Image.Image) or not isinstance(mask, Image.Image):
+        raise TypeError('img and mask arguments need to be PIL.Image')
+
+    if not isinstance(alpha, float) or alpha < 0 or alpha >= 1:
+        raise ValueError('alpha argument is expected to be of type float between 0 and 1')
+
+    cmap = cm.get_cmap(colormap)
+    # Resize mask and apply colormap
+    overlay = mask.resize(img.size, resample=Image.BICUBIC)
+    overlay = (255 * cmap(np.asarray(overlay) ** 2)[:, :, :3]).astype(np.uint8)
+    # Overlay the image with the mask
+    overlayed_img = Image.fromarray((alpha * np.asarray(img) + (1 - alpha) * overlay).astype(np.uint8))
+
+    return overlayed_img
+
+/////////////////////////////////////////////////////
+
+runCAM.py
+# ワーニングメッセージを非表示
+warnings.simplefilter('ignore')
+# ディレクトリの存在確認
+if not os.path.exists(cfg.CAM.OUTPUT_DIR):
+    os.makedirs(cfg.CAM.OUTPUT_DIR)
+device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+# 学習済モデルのパスを定義し、モデルをロードする
+model_dir = cfg.CAM.MODEL_DIR
+if cfg.CAM.ARC_F:
+    model = Predictor2(model_dir=model_dir)
+else:
+    model = Predictor(model_dir=model_dir)
+# ディレクトリ内にある画像ファイル名を取得
+files = glob.glob(cfg.CAM.INPUT_DIR + '/*.' + cfg.CAM.EXT)
+num_5per = len(files) // 20
+# 画像ファイル数が20以下だった場合の暫定処理
+if num_5per == 0:
+    num_5per = 1
+counter = 0
+num_progress = 0
+for file in files:
+    # 画像読み込み
+    img_path = file
+    pil_img = Image.open(img_path, mode='r').convert('RGB').resize(cfg.CAM.SHAPE)
+    img_tensor = to_tensor(pil_img).to(device=device)
+    cam_extractor = cams.SmoothGradCAMpp(model.model)
+    cam_extractor._hooks_enabled = True
+    model.model.zero_grad()
+    scores = model.model(img_tensor.unsqueeze(0))
+    # scoresが最大のクラス番号を取得
+    class_idx = scores.squeeze(0).argmax().item()
+    # scoresの最大値を取得
+    scores_max_T = scores.squeeze(0).max(0).values
+    scores_max = str(scores_max_T.to('cpu').detach().numpy().copy())
+    scores_max = round(float(scores_max), 2)
+    scores_max = str(scores_max)
+    scores_max = scores_max.replace('.', 'n')
+    activation_map = cam_extractor(class_idx, scores).cpu()
+    cam_extractor._hooks_enabled = False
+    heatmap = to_pil_image(activation_map, mode='F')
+    gray_img = pil_img.convert('L').convert('RGB')  # 見やすいよう元画像を3chのgrayscaleに変換
+    result = overlay_mask(gray_img, heatmap, alpha=float(cfg.CAM.ALPHA))
+    out_name = cfg.CAM.OUTPUT_DIR + '/' + os.path.splitext(os.path.basename(img_path))[0] + '.png'
+    result.save(out_name)
+    counter += 1
+    if counter == num_5per:
+        num_progress = num_progress + 5
+        if num_progress < 101:
+            print('\n進捗率,' + str(num_progress))
+            counter = 0
+
+
+
+
+
+
