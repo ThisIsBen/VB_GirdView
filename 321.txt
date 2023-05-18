@@ -326,3 +326,6 @@ Grad-CAMでは、各チャンネルの重みを勾配から計算します。対
 
 問題点として、複数の同じ物体を検知できないことや勾配消失問題の影響を受けることが近年の研究で分かっています[10]。
 
+////////////////////
+possibility:
+cams.SmoothGradCAMpp(model.model,"XX layer") is not dones
