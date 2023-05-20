@@ -325,33 +325,47 @@ Grad-CAMでは、各チャンネルの重みを勾配から計算します。対
 テンソルを掛け合わせています。
 
 
-
+Caption should use Ving 
 ////////////////////////////
-!不良品流出防止　Prevent defective products from entering the market
-!見かけ不良低減  Reduce false alarm
-パラメーター調整 Adject parameters
-ロット停止指示   Give lot stop instruction
-上流工程へのFB   Give feedback to upstream process
+!不良品流出防止　Preventing defective products from entering the market
+!見かけ不良低減  Reducing false alarm
+パラメーター調整 Adjecting parameters
+ロット停止指示   Giving lot stop instruction
+上流工程へのFB   Giving feedback to upstream process
 上流工程設備     Upstream process equipments
 製造技術         Manufacturing technology
-!品種改善        Product type/category improvement
+!品種改善        Improvement of product types
 外観             Appearance
-!良品             Good Product
-NG画像
-見かけ不良
-外観検査機判定
-真の不良
-致命モード不良
+!良品             Good product
+///////////////////////////////
+!NG画像           NG images
+見かけ不良         False alarm
+外観検査機判定     Judgment made by visual inspection machine 
+!真の不良　　　　　Real defective product
+致命モード不良     Fatal defect
 The use case of AI Image Classification System
 
+//Added by myself
+!見逃し overlook
 
-ViDi1台で12台分の画像を処理
-LIB（MDW）をモデルにAI外観検査システムを開発・導入済（見逃し0＆過検出0.05%⇒目視検査廃止）
+　
+ViDi1台で12台分の画像を処理 
+Processing 12 images with one ViDi System
+
+LIB（MDW）をモデルにAI外観検査システムを開発・導入済（見逃し0＆過検出0.05%⇒目視検査廃止） 
+The AI visual inspection system is developed and deployed to LIB in MDW (0 overlook & 0.05% false alarm ⇒ Manual visual inspection is abolished)
+
 23Fは本システムの水平展開、機能拡張開発（e.g.ﾙｰﾙﾍﾞｰｽ処理＋AI処理など）に取り組む
-MDWに導入したAI外観検査システム構成
-MDWのLIB溶接不良画像の例
+23F will work on horizontal expansion of this system and function expansion development (e.g. rule-based processing + AI processing, etc.)
+
+
+MDWに導入したAI外観検査システム構成   Configuration of the AI visual inspection system deployed to MDW
+MDWのLIB溶接不良画像の例          Welding NG images of LIB in MDW 
 プログラミングが不要なノーコードAI画像処理ツールViDiを活用したAI外観検査システム
-ノーコード/ローコードAI外観検査システム
+AI visual inspection system that uses ViDi, a no-code AI visual processing tool that does not require programming
+
+ノーコード/ローコードAI外観検査システム　
+No-code/low-code AI visual inspection system
 
 
 AI異常検知・特性予測ｼｽﾃﾑ～
