@@ -327,16 +327,16 @@ Grad-CAMでは、各チャンネルの重みを勾配から計算します。対
 
 
 ////////////////////////////
-不良品流出防止
-見かけ不良低減
-パラメーター調整
-ロット停止指示
-上流工程へのFB
-上流工程設備
-製造技術
-品種改善
-外観
-良品
+!不良品流出防止　Prevent defective products from entering the market
+!見かけ不良低減  Reduce false alarm
+パラメーター調整 Adject parameters
+ロット停止指示   Give lot stop instruction
+上流工程へのFB   Give feedback to upstream process
+上流工程設備     Upstream process equipments
+製造技術         Manufacturing technology
+!品種改善        Product type/category improvement
+外観             Appearance
+!良品             Good Product
 NG画像
 見かけ不良
 外観検査機判定
