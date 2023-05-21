@@ -431,7 +431,7 @@ Horizontal expansion to each murata site + development of behavior change techno
 
 multi-label-image-classification
 https://vijayabhaskar96.medium.com/multi-label-image-classification-tutorial-with-keras-imagedatagenerator-cd541f8eaf24
-
+https://www.mathworks.com/help/deeplearning/ug/multilabel-image-classification-using-deep-learning.html
 ////////////////////////////////
 問題点として、複数の同じ物体を検知できないことや勾配消失問題の影響を受けることが近年の研究で分かっています[10]。
 
