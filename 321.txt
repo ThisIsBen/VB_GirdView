@@ -343,17 +343,17 @@ Caption should use Ving
 外観検査機判定     Judgment made by visual inspection machine 
 !真の不良　　　　　Real defective product
 致命モード不良     Fatal defect
-The use case of AI Image Classification System
+The use case of AI image classification system
 
 //Added by myself
 !見逃し overlook
-
+!人工目視検査 manual visual inspection
 　
 ViDi1台で12台分の画像を処理 
-Processing 12 images with one ViDi System
+Processing 12 images with one ViDi system
 
 LIB（MDW）をモデルにAI外観検査システムを開発・導入済（見逃し0＆過検出0.05%⇒目視検査廃止） 
-The AI visual inspection system is developed and deployed to LIB in MDW (0 overlook & 0.05% false alarm ⇒ Manual visual inspection is abolished)
+The AI visual inspection system is developed and deployed to LIB in MDW (0 overlook & 0.05% false alarm ⇒ manual visual inspection is abolished)
 
 23Fは本システムの水平展開、機能拡張開発（e.g.ﾙｰﾙﾍﾞｰｽ処理＋AI処理など）に取り組む
 23F will work on horizontal expansion of this system and function expansion development (e.g. rule-based processing + AI processing, etc.)
@@ -362,52 +362,77 @@ The AI visual inspection system is developed and deployed to LIB in MDW (0 overl
 MDWに導入したAI外観検査システム構成   Configuration of the AI visual inspection system deployed to MDW
 MDWのLIB溶接不良画像の例          Welding NG images of LIB in MDW 
 プログラミングが不要なノーコードAI画像処理ツールViDiを活用したAI外観検査システム
-AI visual inspection system that uses ViDi, a no-code AI visual processing tool that does not require programming
+The AI visual inspection system that uses ViDi, a no-code AI image processing tool that does not require programming
 
 ノーコード/ローコードAI外観検査システム　
 No-code/low-code AI visual inspection system
 
 
-AI異常検知・特性予測ｼｽﾃﾑ～
-数値系ノーコードAIシステム
-ノーコード機械学習ツールDatarobotを活用し、異常検知/品質予測/特性予測を行うAIシステム
-特選プローブ衝撃荷重異常検知（J8S）
-97.9%の精度で　正常/異常を判別
-ノーコード機械学習ツール（Datarobot）
-抵抗値とプローブ荷重の関係を調査
-抵抗値とプローブ荷重の同時取得
-異常波形
-正常波形
-時系列データ分類システム
-設備異常検知
-品質予測
-人作業定量化
+AI異常検知・特性予測ｼｽﾃﾑ～  AI anomaly detection and characteristic prediction system～
+数値系ノーコードAIシステム  Numerical no-code AI system
+@!ノーコード機械学習ツールDatarobotを活用し、異常検知/品質予測/特性予測を行うAIシステム
+The AI system that performs anomaly detection/quality prediction/characteristic prediction with the no-code machine learning tool Datarobot
+or
+The AI system performing anomaly detection/quality prediction/characteristic prediction uses the no-code machine learning tool Datarobot
 
-データ加工・前処理
-AI学習・予測
+
+ASK 鈴木さん　特選プローブ衝撃荷重異常検知（J8S）characteristic sorting probe abnormal shouck load detection
+@!97.9%の精度で　正常/異常を判別 Distinguish between normal and abnormal with 97.9 accuracy
+ノーコード機械学習ツール（Datarobot） No-code machine learning tool (Datarobot)
+抵抗値とプローブ荷重の関係を調査 Investigating the relationship between resistance value and probe load
+抵抗値とプローブ荷重の同時取得　Getting resistance value and probe load at the same time
+異常波形　Abnormal waveform
+正常波形　Normal waveform
+時系列データ分類システム Time series data classification system
+設備異常検知 Equipment anomaly detection
+品質予測     Quality prediction
+人作業定量化  Human work quantification
+
+データ加工・前処理 Data processing/preprocessing
+AI学習・予測 AI learning/prediction
 異常検知システム(特選ﾌﾟﾛｰﾌﾞ衝撃荷重）開発完了。’23/4よりJ8Sで導入・評価
+Development of anomaly detection system(probe abnormal shouck load detection) has been completed. Deployed and evaluated in J8S from 2023/4
+
 特性予測PoCシステム（MLCC積層容量設計）開発完了。IM5120量産工程で活用中
+Development of characteristic prediction PoC system (MLCC multilayer capacity design) has been completed. Used in the IM5120 mass production process
 
 
-
-作業支援ｿﾘｭｰｼｮﾝ・安全支援ｼｽﾃﾑ
-作業習熟支援システム
+作業支援ｿﾘｭｰｼｮﾝ・安全支援ｼｽﾃﾑ Work support solution/Safety support system
+作業習熟支援システム Work proficiency support system
 AI・IoT技術を活用し、品質に影響を及ぼす作業動作の習熟を支援するシステム
-MLCCチップ投入作業
-重要因子の自動抽出
-最重要因子は「投入時間」（現場の判断基準と同じ）
-治具の3次元位置・姿勢をｾﾝｼﾝｸﾞ
-動作ﾄﾗｯｷﾝｸﾞﾓｼﾞｭｰﾙ（試作品）
-G作業
-NG作業
-作業の速さ・位置など重要因子ごとのスコアを可視化
-23/4～IM52/54でシステム導入・活用予定
-23Fは作業分析自動化システム開発にも取り組む
+A system that uses AI and IoT technology to support the proficiency of work movements that affect quality
 
+
+MLCCチップ投入作業　MLCC chip insertion work
+重要因子の自動抽出  Automatic extraction of important factors
+最重要因子は「投入時間」（現場の判断基準と同じ） 
+The most important factor is "insertion time"(Same as on-site judegment criteria)
+治具の3次元位置・姿勢をｾﾝｼﾝｸﾞ
+Sensing 3D position and posture of a jig
+
+動作ﾄﾗｯｷﾝｸﾞﾓｼﾞｭｰﾙ（試作品） Motion tracking module(prototype)
+G作業 Good work
+NG作業 NG work
+作業の速さ・位置など重要因子ごとのスコアを可視化
+Visualizing score of each important factor of work like speed and position  
+
+@!23/4～IM52/54でシステム導入・活用予定
+Expected to deploy and utilize the system to IM52/54 from 23/4
+or
+Plan to deploy and utilize the system to IM52/54 from 23/4
+
+
+
+23Fは作業分析自動化システム開発にも取り組む
+Also working on automatic work analysis system development in 23F
 
 
 AI・IoT技術を活用し、楽しさと両立しながら安全行動を促すシステム
+A system that uses AI/IoT technology to urge acting safely while having fun 
 23Fは各事業所展開＋行動変容技術開発に取り組む
+Working on horizontal expansion of each murata site + behavior change technology development in 23F
+
+
 ////////////////////////////////
 問題点として、複数の同じ物体を検知できないことや勾配消失問題の影響を受けることが近年の研究で分かっています[10]。
 
