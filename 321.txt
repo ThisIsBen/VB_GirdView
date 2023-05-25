@@ -1,3 +1,6 @@
+
+https://urldefense.com/v3/__https://www.tenjikai-uketsuke.com/qr/c20360181/qr.asp?cd=103h504011o232903__;!!IrO0G1JilQ!7fLGKJ0rd2Yw96w7jh3IVEK4X1bSltoY4GW2LUtLoFkFgRZ9GveiTaofYZ3RfreS2Sd1A80Xm-zkgknrqElP7xIGJnSR$ 
+
 crollToCurrentProgress
 CurrentFolder_GV.CurrentCell = CurrentFolder_GV.Rows(rowNo).Cells(1)
 
