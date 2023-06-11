@@ -120,6 +120,15 @@ def copy_WithRetry(oriFilePath,dstFolder):
             if i < retryLimit-1:
                 time.sleep(retryInterval) # Sleep for retryInterval seconds
 
+-------------------------
+Diffusion in pytorch GitHub 參考程式碼：
+https://github.com/dome272/Diffusion-Models-pytorch
+
+https://github.com/lucidrains/denoising-diffusion-pytorch
+
+
+https://github.com/pesser/pytorch_diffusion
+
             
 
 
