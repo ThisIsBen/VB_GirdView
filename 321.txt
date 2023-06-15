@@ -1,2 +1,23 @@
+市販ツール
+Dall E 2
+https://openai.com/dall-e-2
+
+Imagen
+Generate an image from text 
+https://imagen.research.google/
+
+
+
+
+Open source
+画像を操る~photoshop
+Drag your GAN code released in June
+https://github.com/XingangPan/DragGAN
+
+Stable diffusion 
+Image より軽量
+Generate an image from text 
+https://stablediffusionweb.com/
+
 
 
