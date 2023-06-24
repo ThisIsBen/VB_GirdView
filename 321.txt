@@ -102,7 +102,7 @@ def main():
     
     #Split data according to camera number in 'フルパス'
     eachCamNo_Rows=splitByCamNo(df)
-    for rowIndex in eachCamNo_Rows.values():
+    for key,value in eachCamNo_Rows.items():
             subDf=df.iloc[rowIndex]
             #do the accuracy check process with subDf here
             #...
