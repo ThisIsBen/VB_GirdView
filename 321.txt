@@ -110,3 +110,6 @@ def main():
 
 
     End Sub
+
+VB.netにおいて、プログレスバーの作成方法
+https://www.fenet.jp/dotnet/column/language/4631/
