@@ -1,4 +1,4 @@
-'///////////////////Add "Await" Keyword followed by MsgBox("自動削除が完成しました。") to startDeleteOldData/////////
+'///////////////////Add ①"Await" Keyword followed by ②MsgBox("自動削除が完成しました。") to startDeleteOldData/////////
         Await Task.Run(Sub()
                            'Heavy process
                            Console.WriteLine("in single task thread ID:" & System.Environment.CurrentManagedThreadId)
@@ -8,10 +8,10 @@
 '//////////////////
 ----------------------------------------------------
  '///////////////////Replace parallel for in kannsihhanntei btn event with this structure, 
-        '//only Replace the Heavy process part would do the work////////////////////////
+only Replace ①the Heavy process and ②camNoArray with real Array would do the work////////
 
-        Dim taskArray(BroadCategory.Count - 1) As Task
-        For i As Integer = 0 To BroadCategory.Count - 1
+        Dim taskArray(camNoArray.Count - 1) As Task
+        For i As Integer = 0 To camNoArray.Count - 1
             taskArray(i) = Task.Run(Sub()
                                         'Heavy process
                                         Console.WriteLine("in tasks thread ID:" & System.Environment.CurrentManagedThreadId)
