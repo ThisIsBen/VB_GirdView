@@ -1,3 +1,28 @@
+'///////////////////Add "Await" Keyword followed by MsgBox("自動削除が完成しました。") to startDeleteOldData/////////
+        Await Task.Run(Sub()
+                           'Heavy process
+                           Console.WriteLine("in single task thread ID:" & System.Environment.CurrentManagedThreadId)
+                           Threading.Thread.Sleep(2000)
+                       End Sub)
+        MsgBox("自動削除が完成しました。")
+'//////////////////
+----------------------------------------------------
+ '///////////////////Replace parallel for in kannsihhanntei btn event with this structure, 
+        '//only Replace the Heavy process part would do the work////////////////////////
+
+        Dim taskArray(BroadCategory.Count - 1) As Task
+        For i As Integer = 0 To BroadCategory.Count - 1
+            taskArray(i) = Task.Run(Sub()
+                                        'Heavy process
+                                        Console.WriteLine("in tasks thread ID:" & System.Environment.CurrentManagedThreadId)
+                                        Threading.Thread.Sleep(2000)
+                                    End Sub)
+        Next
+        'Asynchronously wait for all tasks to finish
+        Await Task.WhenAll(taskArray)
+        '///////////////////////////////////////////
+
+
 市販ツール
 Dall E 2
 https://openai.com/dall-e-2
