@@ -1,3 +1,12 @@
+
+貼上狀態2的confusion map
+
+另作一個ppt 說明偽のみと本物のみ Resnet18皆比EfficientB3好
+
+確認假+真能否solve只有其中之一能解的 以及 能否solve雙方都不能解的
+
+
+
 '///////////////////Add ①"Await" Keyword followed by ②MsgBox("自動削除が完成しました。") to startDeleteOldData/////////
         Await Task.Run(Sub()
                            'Heavy process
