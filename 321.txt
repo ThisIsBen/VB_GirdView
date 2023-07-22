@@ -1,5 +1,78 @@
+C# Await
 Good await tutorial 
+
 https://learn.microsoft.com/en-us/dotnet/visual-basic/programming-guide/concepts/async/
+
+
+
+
+Control flow in asynchronous programming
+    public async Task DoSomethingAsync() {
+        Console.WriteLine("Start");
+        await Task.Delay(1000);
+        Console.WriteLine("End");
+    }
+    public async Task Main() {
+        Console.WriteLine("Before");
+        await DoSomethingAsync();
+        Console.WriteLine("After");
+    }
+
+Result:
+
+    Before
+    Start
+    End
+    After
+
+
+
+7 ways to start a task in C#
+
+https://www.spaceclick.com/blog/7-ways-to-create-tasks-in-dot-net-c-sharp/
+
+Create a task without starting it right away
+
+Using Lambda with a method:
+
+    Task task = new Task( () => MyMethod() );
+    task.Start();
+
+
+Create a task and start it right away
+
+Using Run (.NET 4.5)
+
+    public async Task DoStuff()
+    {
+    await Task.Run(() => MyMethod());
+    }
+
+If you don't need to wait for the task in the DoStuff()
+
+    public void DoStuff()
+    {
+       Task.Run(() => MyMethod());
+    }
+
+
+Get return value from Task.Run
+    string urlContents = await Task.Run(() => RunLongTask(i.ToString(CultureInfo.InvariantCulture)));
+
+The string result is stored in the task that represents the completion of the RunLongTask method. The await operator retrieves the result from `t`he task. The assignment statement assigns the retrieved result to `urlContents`.
+
+
+
+    private async Task<string> ABCAsync(string someParam)
+    {
+        //adding .ConfigureAwait(false) may NOT be what you want but google it.
+        return await Task.Run(() => SomeObj.SomeMethodAsync(someParam)).ConfigureAwait(false);
+    }
+
+ABCAsync returns a Task(Of TResult) where TResult is a string.
+The task represents the ongoing process for the call to `ABCAsync`, with a commitment to produce an actual string value when the work is complete.
+
+----------------------------------------------------
 
 貼上狀態2的confusion map
 
