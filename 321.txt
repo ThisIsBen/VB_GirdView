@@ -1,4 +1,4 @@
-C# Await
+C# Await Tutorial
 Good await tutorial 
 
 https://learn.microsoft.com/en-us/dotnet/visual-basic/programming-guide/concepts/async/
@@ -71,6 +71,23 @@ The string result is stored in the task that represents the completion of the Ru
 
 ABCAsync returns a Task(Of TResult) where TResult is a string.
 The task represents the ongoing process for the call to `ABCAsync`, with a commitment to produce an actual string value when the work is complete.
+
+
+
+You can work on other independent works after starting a task, and await it to finish when you need its return value to continue the program.
+
+    Task<string> LongTask = new Task( () => MyMethod() );
+    LongTask.Start();
+    
+    //You can continue with other work that doesn't depend on the final result from LongTask.
+    DoIndependentWork();
+    
+    //When you have run out of work that you can do without a result from LongTask.
+    //Await it to finish
+    string urlcontent = await LongTask
+    
+
+
 
 ----------------------------------------------------
 
