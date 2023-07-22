@@ -1,3 +1,5 @@
+Good await tutorial 
+https://learn.microsoft.com/en-us/dotnet/visual-basic/programming-guide/concepts/async/
 
 貼上狀態2的confusion map
 
