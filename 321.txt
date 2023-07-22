@@ -89,6 +89,60 @@ You can work on other independent works after starting a task, and await it to f
 
 
 
+Wait for multiple tasks : WaitAll vs WhenAll
+
+`Task.WaitAll` blocks the current thread until everything has completed.
+`Task.WhenAll` returns a task which represents the action of waiting until everything has completed.
+That means that from an async method, you can use:
+
+    await Task.WhenAll(tasks);
+
+... which means your method will continue when everything's completed, but you won't tie up a thread to just hang around until that time.
+
+Task.WaitAll example:
+    public async Task UnresultTaskMethod()
+    { 
+       var task1 = AsyncMethod1();
+       var task2 = AsyncMethod2();
+    
+       // This is not awaitable, you're blocking the current thread
+       Task.WaitAll(task1, task2);
+     
+       // Here you are sure both task1 and task2 are completed
+    }
+
+
+
+Task.WhenAll example:
+    private async Task ABCAsync(string someParam)
+    {
+        //Show the marquee to indicate it's waiting for the process to finish
+        var box = new Form2();
+        Form2.Show();
+    
+        //Do the process
+        var BroadCategory = new List<string>();
+        BroadCategory.Add("123");
+        BroadCategory.Add("1234");
+        // ///////////////////Replace parallel for in kannsihhanntei btn event with this structure, 
+        // //only Replace the Heavy process part would do the work////////////////////////
+        var taskArray = new Task[BroadCategory.Count];
+        for (int i = 0, i <= BroadCategory.Count - 1;  i++)
+        {
+            taskArray[i] = Task.Run(() =>
+            {
+                    // Heavy process
+                Console.WriteLine("in tasks thread ID:" + Environment.CurrentManagedThreadId);
+                System.Threading.Thread.Sleep(2000);
+            });
+        }
+        // Asynchronously wait for all tasks to finish so that the caller function can continue its work.
+        await(Task.WhenAll(taskArray));
+    
+        //Close the marquee window to indicate the process is done.
+        Form2.Close();
+    }
+
 ----------------------------------------------------
 
 貼上狀態2的confusion map
