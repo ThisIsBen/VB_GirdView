@@ -1,3 +1,15 @@
+
+C#で画像を描いてみた（WPFでWritableBitmap編）
+https://water2litter.net/rye/post/c_graphic_draw_writablebitmap/
+
+Converting WriteableBitmap to Bitmap in C#
+https://stackoverflow.com/questions/17298034/converting-writeablebitmap-to-bitmap-in-c-sharp
+
+
+
+
+
+
 C# Await Tutorial
 Good await tutorial 
 
