@@ -5,6 +5,12 @@ https://water2litter.net/rye/post/c_graphic_draw_writablebitmap/
 Converting WriteableBitmap to Bitmap in C#
 https://stackoverflow.com/questions/17298034/converting-writeablebitmap-to-bitmap-in-c-sharp
 
+Wrietablebitmap BGR in a byte array
+W×H×4
+https://www.peliphilo.net/archives/2313
+
+
+
 
 
 
