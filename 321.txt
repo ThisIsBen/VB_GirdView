@@ -1,4 +1,8 @@
 
+升降圖 ， 當時評價良品圖和現在評價良品圖的差異對照 ，本物枚数ある程度ある場合、多様性を増やすことができる
+
+
+
 C#で画像を描いてみた（WPFでWritableBitmap編）
 https://water2litter.net/rye/post/c_graphic_draw_writablebitmap/
 
