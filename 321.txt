@@ -4,6 +4,22 @@
 4　分類モデルとyolov5を手動分類ソフトに適用する
 5　手動分類ソフトで学習に使われていない画像を分類して評価する
 
+关于Runtime soft 数据上传至CIM商讨，
+
+黄kk提供下列设想,请参考，
+
+设想分成两步：第一是实时解析图像结果发送给AMES, 第二步设备排出时，主动向AMES询问电池的检测结果。
+Step 1 :  设备图像Save   -share folder->   Runtime Soft  -http->  AMES DB 
+	这里需要确认的是，RUNTIME SOFT是否可以将检测结果实时上传给CIM(AMES)
+需要生技协助确认的问题：
+1）根据目前测试结果看每张图片的数据处理在百位毫秒级，所以想确认RUNTIME SOFT运行频度从1小时运行一次 改成 每秒一次/实时运行（就是来一张图像就立马解析）？
+2）RUNTIME SOFT解析结果除了存入CSV文件，是否可以追加HTTP 请求将结果数据发送给AMES.
+类似：http://mdwpmes.co.murata.local/ames/baseDML.do?CELL_ID=XXXXXXXX&RESULT=OK&DATA1=100&DATA2=1000
+Step 2 :  设备排出Check  -link->   Gateway PLC -udp>   DA Process  -udp->  设备PLC 
+	如果STEP1可以实现的话，AMES侧需要追加一个EVENT，即设备排出时发送EVENT给AMES，AMES返回AI软件的检测结果给设备，设备再根据结果决定电池的排出。
+
+上周8/23在MMC我已经向陈san简要说明了，请在9/6会议上再详细商讨，
+以上
 
 
 
