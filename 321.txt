@@ -28,6 +28,8 @@ Step 2 :  设备排出Check  -link->   Gateway PLC -udp>   DA Process  -udp->  �
 謝謝您.
 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Notice：Fix 放電　with 排出の意味
+
 Runtime SystemデータのCIM (AMES)へのアップロードに関するディスカッション、
 黄さん(CIM (AMES)の担当者)は次のアイデアを提供しています。参照してください。
 
