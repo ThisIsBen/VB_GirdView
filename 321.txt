@@ -26,7 +26,7 @@ Step 2 :  设备排出Check  -link->   Gateway PLC -udp>   DA Process  -udp->  �
 2. "如果STEP1可以实现的话，AMES侧需要追加一个EVENT，即设备排出时发送EVENT给AMES，AMES返回AI软件的检测结果给设备，设备再根据结果决定电池的排出。"
 中的 "电池的排出" 是什麼意思呢?
 謝謝您.
-
+3."DA Process"指的是資料分析嗎?
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 Notice：Fix 放電　with 排出の意味
 
