@@ -1,37 +1,41 @@
 public partial class MainWindow : Window, INotifyPropertyChanged
     {
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void SetProperty<T>(ref T field, T value, [CallerMemberName]string propertyName = null)
-        {
-            field = value;
-            PropertyChangedEventHandler h = PropertyChanged;
-            if (h != null) { h(this, new PropertyChangedEventArgs(propertyName)); }
-        }
-
-
-
-        // UI上のランタイムの設定TextBox(RuntimeFileBox)のプロパティ
-
-
-        private string _RuntimeFilePath;
+private string _RuntimeFilePath;
         public string RuntimeFilePath
         {
             get { return _RuntimeFilePath; }
-            set { SetProperty(ref _RuntimeFilePath, value); }
+            set
+            {
+                if (_RuntimeFilePath != value)
+                {
+                    _RuntimeFilePath = value;
+                    OnPropertyChanged();
+                }
+            }
         }
 
 
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
-・・・・・・・・・・・・・・
-<TextBox x:Name="SoftwareTriggerFreqTextBox" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="105,0,0,41" Width="70" Height="35" Text="{Binding RuntimeFilePath, Mode=TwoWay}" RenderTransformOrigin="2.129,2.035"/>
-        <Label x:Name="RuntimeFileBox" Content="{Binding RuntimeFilePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="47" Margin="52,303,0,0" VerticalAlignment="Top" Width="192"/>
+public MainWindow()
+        {
 
+            
 
+            InitializeComponent();
 
+            DataContext = this;
 
-
+            RuntimeFilePath = "555";
+        }
+//////////////////////////////Front
+<TextBox x:Name="SoftwareTriggerFreqTextBox" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="105,0,0,41" Width="70" Height="35" Text="{Binding RuntimeFilePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" RenderTransformOrigin="2.129,2.035"/>
+       
+        <TextBox x:Name="SoftwareTriggerFreqTextBox2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="279,0,0,40.8" Width="70" Height="35" Text="{Binding RuntimeFilePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" RenderTransformOrigin="2.129,2.035"/>
 
 
 
