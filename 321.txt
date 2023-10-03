@@ -1,3 +1,60 @@
+class Student(object):
+    team = ""
+    points = 0
+   
+
+    # The class "constructor" - It's actually an initializer 
+    def __init__(self, name, age):
+        self.team = name
+        self.points = age
+
+
+dflist=[]
+df1 = pd.DataFrame({'team' : ['A', 'B', 'C', 'D', 'E'], 
+                    'points' : [12, 15, 22, 29, 24]}) 
+                    
+dflist.append(df1)
+
+
+#create second DataFrame
+df2 = pd.DataFrame({'team' : ['A', 'D', 'F', 'C', 'H'],
+                    'points' : [15, 2, 15, 69, 10]})                    
+
+dflist.append(df2)
+
+
+
+dict={}
+for df in dflist:
+                      
+  for i in range(len(df)):
+  
+    if df.loc[i,'team'] in dict:
+         if  dict[df.loc[i,'team']].points < df.loc[i,'points']:
+            dict[df.loc[i,'team']]=Student(df.loc[i,'team'],df.loc[i,'points'])
+    else:
+         dict[df.loc[i,'team']]=Student(df.loc[i,'team'],df.loc[i,'points'])
+
+print(dict["C"].team)
+print(dict["C"].points) 
+
+
+print(dict["D"].team)
+print(dict["D"].points)  
+
+
+
+
+
+
+
+
+
+
+
+
+
+///////////////////
 https://www.statology.org/pandas-get-rows-not-in-another-dataframe/
 #merge two DataFrames and create indicator column
 df_all = df1.merge(df2.drop_duplicates(), on=['col1','col2'],
