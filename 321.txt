@@ -1,3 +1,11 @@
+https://www.statology.org/pandas-get-rows-not-in-another-dataframe/
+#merge two DataFrames and create indicator column
+df_all = df1.merge(df2.drop_duplicates(), on=['col1','col2'],
+                   how='left', indicator=True)
+
+#create DataFrame with rows that exist in first DataFrame only
+df1_only = df_all[df_all['_merge'] == 'left_only']
+//////////////////////
 public partial class MainWindow : Window, INotifyPropertyChanged
     {
 private string _RuntimeFilePath;
