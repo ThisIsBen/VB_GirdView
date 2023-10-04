@@ -1,46 +1,66 @@
-class Student(object):
-    team = ""
-    points = 0
-   
+//Filewatcher
+        private string monitorFolderPath=@"D:\chin\FM5300_MLCC評価\Yolov8で分割した_外内教師画像\分割あり_分類結果_Trial3";
 
-    # The class "constructor" - It's actually an initializer 
-    def __init__(self, name, age):
-        self.team = name
-        self.points = age
+        private System.IO.FileSystemWatcher watcher = null;
+
+        //イベントハンドラ
+        private void watcher_Created(System.Object source,
+            System.IO.FileSystemEventArgs e)
+        {
+            //txtBox.Text = "ファイル 「" + e.Name + "」が作成されました。";
+            txtBoxContent= "ファイル 「" + e.Name + "」が作成されました。";
+            MessageBox.Show("ファイル 「" + e.Name + "」が作成されました。");
+            
+        }
+
+        
+
+       
+
+        private void StartMonitoringBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (watcher != null) return;
+
+            watcher = new System.IO.FileSystemWatcher();
+            //監視するディレクトリを指定
+            watcher.Path = monitorFolderPath;
+            ////最終アクセス日時、最終更新日時、ファイル、フォルダ名の変更を監視する
+            //watcher.NotifyFilter =
+            //    (System.IO.NotifyFilters.LastAccess
+            //    | System.IO.NotifyFilters.LastWrite
+            //    | System.IO.NotifyFilters.FileName
+            //    | System.IO.NotifyFilters.DirectoryName);
+            //すべてのファイルを監視
+            watcher.Filter = "*.png";
+
+            //UIのスレッドにマーシャリングする
+            //コンソールアプリケーションでの使用では必要ない
+            //watcher.SynchronizingObject = this;
+
+            //イベントハンドラの追加
+            watcher.Created += new System.IO.FileSystemEventHandler(watcher_Created);
+
+            //subフォルダ内は監視しない
+            watcher.IncludeSubdirectories = false;
 
 
-dflist=[]
-df1 = pd.DataFrame({'team' : ['A', 'B', 'C', 'D', 'E'], 
-                    'points' : [12, 15, 22, 29, 24]}) 
-                    
-dflist.append(df1)
+            //監視を開始する
+            watcher.EnableRaisingEvents = true;
+            MessageBox.Show("監視を開始しました。");
+           
 
+        }
 
-#create second DataFrame
-df2 = pd.DataFrame({'team' : ['A', 'D', 'F', 'C', 'H'],
-                    'points' : [15, 2, 15, 69, 10]})                    
+        
 
-dflist.append(df2)
-
-
-
-dict={}
-for df in dflist:
-                      
-  for i in range(len(df)):
-  
-    if df.loc[i,'team'] in dict:
-         if  dict[df.loc[i,'team']].points < df.loc[i,'points']:
-            dict[df.loc[i,'team']]=Student(df.loc[i,'team'],df.loc[i,'points'])
-    else:
-         dict[df.loc[i,'team']]=Student(df.loc[i,'team'],df.loc[i,'points'])
-
-print(dict["C"].team)
-print(dict["C"].points) 
-
-
-print(dict["D"].team)
-print(dict["D"].points)  
+        private void StopMonitoringBtn_Click(object sender, RoutedEventArgs e)
+        {
+            //監視を終了
+            watcher.EnableRaisingEvents = false;
+            watcher.Dispose();
+            watcher = null;
+            MessageBox.Show("監視を終了しました。");
+        }
 
 
 
