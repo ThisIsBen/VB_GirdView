@@ -10,50 +10,51 @@ namespace WpfSendHttpRequest
 {
     class SendDataToWebServer
     {
-        
+
 
         //[Read server URL from setting file]
-        private static string webServer = "http://localhost:62338/Home/GetClientData";
-
+        //private static string webServer = "http://localhost:62338/Home/GetClientData";
+        private static string webServer = "http://localhost:27534/api/values";
+        
         
         private static readonly HttpClient client = new HttpClient();
         //Webサーバーに送信する
         //送信内容を一つのdictionaryに入れる必要がある。
-        public async void sendData(Dictionary<string, string> clientMsgDict)
+        public static async Task<string> sendDataWithPost(Dictionary<string, string> clientMsgDict)
         {
-            //var Example_clientMsgDict = new Dictionary<string, string>
-            //  {
-                 
-            //      { "key1", "10.jpg" },
-            //      { "key2", "NG" }
-            //  };
-
+            
 
 
             try
             {
                 //Reference:https://copyprogramming.com/howto/csharp-send-json-in-post-request-c-httpclient#send-json-data-in-http-post-request-c
-                string jsonString = JsonConvert.SerializeObject(clientMsgDict);
+
+                string jsonPreliminaryString = JsonConvert.SerializeObject(clientMsgDict);
+                string jsonString = JsonConvert.SerializeObject(jsonPreliminaryString);
+                //JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+                //string jsonString = JsonConvert.SerializeObject(clientMsgDict, Formatting.None, jsonSerializerSettings);
+                
                 var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
                 var response = await client.PostAsync(webServer, content);
+                string serverMsg = "";
                 if (response.IsSuccessStatusCode)
                 {
                     var responseString = await response.Content.ReadAsStringAsync();
 
                     //If the content returned is in json
-                    string serverMsg="";
+                   
                     try
                     {
                         
                         //Get the response as an object to get the value directly 
                         //if the response contains JSON information 
-                        var responseObj = (ServerResponse)JsonConvert.DeserializeObject(responseString);
+                        var responseObj = JsonConvert.DeserializeObject<ServerResponse>(responseString);
 
                         //Extract values from the server response
-                        var age = responseObj.serverStatus;
-                        var name = responseObj.sendError;
+                        var serverStatus = responseObj.serverStatus;
+                        var sendError = responseObj.sendError;
                         serverMsg = "Server response format: JSON\n";
-                        serverMsg += $"{age}{name}";
+                        serverMsg += $"{serverStatus}+{sendError}";
                        
                     }
 
@@ -66,17 +67,19 @@ namespace WpfSendHttpRequest
 
                     //For Debug
                     //Write the response from server to log for debug
-                    string errorType = "WebServerに送信成功記録";
-                    ReportErrorMsg.outputErrorMsg(serverMsg, errorType);
-
+                    //string errorType = "WebServerに送信成功記録";
+                    //ReportErrorMsg.outputErrorMsg(serverMsg, errorType);
+                    
                 }
+
+                return serverMsg;
             }
             catch(Exception e)
             {
                 //Output and accumulate the error message to a file 
-                string errorType = "WebServerに送信エラー";
-                ReportErrorMsg.outputErrorMsg(e.StackTrace, errorType, needAccumulate: true);
-
+                //string errorType = "WebServerに送信エラー";
+                //ReportErrorMsg.outputErrorMsg(e.StackTrace, errorType, needAccumulate: true);
+                return e.ToString();
             }
 
 
