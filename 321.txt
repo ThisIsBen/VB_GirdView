@@ -1,14 +1,23 @@
- //Show a loading window before showing the main window.
+private void OnStartupClosing(object sender, CancelEventArgs e)
+        {
+            
+            Environment.Exit(0);
+        }
+
+
+
+//Show a loading window before showing the main window.
             Thread newWindowThread = new Thread(() =>
             {
                 LBJ w = new LBJ();
+                w.Closing += OnStartupClosing;
                 w.ShowDialog();
-                
+
                 //try
                 //{
                 //    System.Windows.Threading.Dispatcher.Run();
                 //}
-                //catch(Exception e)
+                //catch (Exception e)
                 //{
                 //    ;
                 //}
@@ -22,6 +31,7 @@
             InitializeComponent();
 
             System.Windows.Threading.Dispatcher.FromThread(newWindowThread).InvokeShutdown();
+///////////////////////////////////////////////////////////
 
 https://www.keyence.co.jp/support/user/controls/plc/video/beginners/
 
