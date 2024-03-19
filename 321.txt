@@ -1,3 +1,27 @@
+ //Show a loading window before showing the main window.
+            Thread newWindowThread = new Thread(() =>
+            {
+                LBJ w = new LBJ();
+                w.ShowDialog();
+                
+                //try
+                //{
+                //    System.Windows.Threading.Dispatcher.Run();
+                //}
+                //catch(Exception e)
+                //{
+                //    ;
+                //}
+
+            });
+            newWindowThread.SetApartmentState(ApartmentState.STA);
+            newWindowThread.IsBackground = true;
+            newWindowThread.Start();
+
+            Thread.Sleep(3000);
+            InitializeComponent();
+
+            System.Windows.Threading.Dispatcher.FromThread(newWindowThread).InvokeShutdown();
 
 https://www.keyence.co.jp/support/user/controls/plc/video/beginners/
 
