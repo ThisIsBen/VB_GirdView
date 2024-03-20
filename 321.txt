@@ -1,3 +1,6 @@
+Opencv 
+https://stackoverflow.com/questions/61940415/filling-numbers-in-image-mask-with-solid-white
+
 private void OnStartupClosing(object sender, CancelEventArgs e)
         {
             
